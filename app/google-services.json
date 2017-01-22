@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "149521994746",
+    "firebase_url": "https://dia-do-bate-cabeca.firebaseio.com",
+    "project_id": "dia-do-bate-cabeca",
+    "storage_bucket": "dia-do-bate-cabeca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149521994746:android:b815199ea6ae8311",
+        "android_client_info": {
+          "package_name": "br.com.leinadlarama.diadobatecabeca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149521994746-1aaji8g8vhl0p850tu5sg4enqh73k3h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [ { "current_key": XXX } ] ,
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
