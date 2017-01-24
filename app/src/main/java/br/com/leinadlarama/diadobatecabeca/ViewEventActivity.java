@@ -53,7 +53,7 @@ public class ViewEventActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, DataHolder.getInstance().getEventSelected().getNomeBanda(), Snackbar.LENGTH_LONG)
+                Snackbar.make(view, DataHolder.getInstance().getEventSelected().getNomeBanda()+" adicionado aos favoritos", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
