@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.leinadlarama.diadobatecabeca.adapter.EventAdapter;
+import br.com.leinadlarama.diadobatecabeca.dao.BandaDao;
 import br.com.leinadlarama.diadobatecabeca.model.Event;
 
 public class MainEventListActivity extends AppCompatActivity {
@@ -34,11 +35,8 @@ public class MainEventListActivity extends AppCompatActivity {
    }
 
     private void retrieveDataFromFirebase(){
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference("users/ugPOMt1YxfVzgrhv8S2C73NNG7A3/events");
 
-        eventsRef.keepSynced(true);
-
+        DatabaseReference eventsRef = BandaDao.getDataBaseRef("events");
         eventsRef.addValueEventListener(
                 new ValueEventListener() {
                     @Override

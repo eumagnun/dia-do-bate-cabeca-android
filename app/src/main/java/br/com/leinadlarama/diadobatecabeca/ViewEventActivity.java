@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import br.com.leinadlarama.diadobatecabeca.helper.Constants;
@@ -80,15 +81,17 @@ public class ViewEventActivity extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(Constants.URL_STORAGE_REFERENCE);
 
-        StorageReference bannerRef = storageRef.child("/images/" + DataHolder.getInstance().getEventSelected().getId() + "/banner");
+        StorageReference bannerRef = storageRef.child("/images/" + DataHolder.getInstance().getEventSelected().getId());
 
         bannerRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
             @Override
             public void onSuccess(Uri uri) {
 
+
                 Picasso.with(context).
                         load(uri)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize(400,200)
                         .centerInside()
                         .priority(Picasso.Priority.HIGH)

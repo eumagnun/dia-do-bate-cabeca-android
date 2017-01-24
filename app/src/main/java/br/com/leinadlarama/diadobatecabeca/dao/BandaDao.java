@@ -17,12 +17,17 @@ import br.com.leinadlarama.diadobatecabeca.model.Event;
  */
 
 public class BandaDao {
-    static DatabaseReference eventsRef;
-    public BandaDao(){
-        DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference("users/ugPOMt1YxfVzgrhv8S2C73NNG7A3/events");
-        eventsRef.keepSynced(true);
+    // Connect to the Firebase database
+    private static FirebaseDatabase database;
+
+    public static DatabaseReference getDataBaseRef(String collection){
+        if(database == null){
+            database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+        }
+
+        DatabaseReference collectionRef = database.getReference(collection);
+        collectionRef.keepSynced(true);
+        return collectionRef;
     }
-
-
-
 }

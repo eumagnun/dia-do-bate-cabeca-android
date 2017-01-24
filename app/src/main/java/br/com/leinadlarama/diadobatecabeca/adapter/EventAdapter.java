@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -85,17 +86,18 @@ public class EventAdapter extends BasicAdapter {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(Constants.URL_STORAGE_REFERENCE);
 
-        StorageReference bannerRef = storageRef.child("/images/" + currentEvent.getId() + "/banner");
+        StorageReference bannerRef = storageRef.child("/images/" + currentEvent.getId());
 
         bannerRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
             @Override
             public void onSuccess(Uri uri) {
 
-                Picasso.with(context).
-                        load(uri)
+                Picasso.with(context)
+                        .load(uri)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .placeholder(R.drawable.banner)
-                        .resize(100, 100)
+                        .resize(200, 200)
                         .onlyScaleDown()
                         .into(img);
             }
