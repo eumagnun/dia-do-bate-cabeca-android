@@ -1,6 +1,7 @@
 package br.com.leinadlarama.diadobatecabeca;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,6 +24,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.net.URL;
 
 import br.com.leinadlarama.diadobatecabeca.helper.Constants;
 import br.com.leinadlarama.diadobatecabeca.helper.DataHolder;
@@ -53,8 +56,8 @@ public class ViewEventActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, DataHolder.getInstance().getEventSelected().getNomeBanda()+" adicionado aos favoritos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(context, TopTracksActivity.class));
+//                Snackbar.make(view, DataHolder.getInstance().getEventSelected().getNomeBanda()+" adicionado aos favoritos", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -70,7 +73,7 @@ public class ViewEventActivity extends AppCompatActivity {
         bodyMessage.append("Local: ").append(DataHolder.getInstance().getEventSelected().getLocalEvento()).append("\n\n");
         bodyMessage.append("Data: ").append(DataHolder.getInstance().getEventSelected().getDataEvento()).append("\n\n");
         bodyMessage.append("Horário: ").append(DataHolder.getInstance().getEventSelected().getHoraEvento()).append("\n\n");
-        bodyMessage.append("Preço Inteira: ").append(DataHolder.getInstance().getEventSelected().getPrecoIngresso()).append("\n\n");
+        bodyMessage.append("Preços a partir de: ").append(DataHolder.getInstance().getEventSelected().getPrecoIngresso()).append("\n\n");
         bodyMessage.append("Observações:\n ").append(DataHolder.getInstance().getEventSelected().getInfoComplementar()).append("\n\n");
 
         return bodyMessage.toString();
@@ -78,34 +81,19 @@ public class ViewEventActivity extends AppCompatActivity {
 
 
     private void loadBanner() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(Constants.URL_STORAGE_REFERENCE);
 
-        StorageReference bannerRef = storageRef.child("/images/" + DataHolder.getInstance().getEventSelected().getId());
+        try {
+            URL thumb_u = new URL(DataHolder.getInstance().getEventSelected().getFotoBanda());
+            Drawable thumb_d = Drawable.createFromStream(thumb_u.openStream(), "src");
+            header.setBackground(thumb_d);
+        }
+        catch (Exception e) {
+            // handle it
+        }
 
-        bannerRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
-            @Override
-            public void onSuccess(Uri uri) {
+        header.setBackground(DataHolder.getInstance().getImageView().getDrawable());
 
-
-                Picasso.with(context).
-                        load(uri)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .resize(400,200)
-                        .centerInside()
-                        .priority(Picasso.Priority.HIGH)
-                        .into(img);
-                header.setBackground(img.getDrawable());
-                img.setVisibility(View.GONE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                exception.printStackTrace();
-                // Handle any errors
-            }
-        });
     }
 
 }

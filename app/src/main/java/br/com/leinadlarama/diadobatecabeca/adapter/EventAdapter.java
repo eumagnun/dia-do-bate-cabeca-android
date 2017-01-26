@@ -70,6 +70,7 @@ public class EventAdapter extends BasicAdapter {
                     @Override
                     public void onClick(View view) {
                         DataHolder.getInstance().setEventSelected(getItem(eventViewHolder.getAdapterPosition()));
+                        DataHolder.getInstance().setImageView(eventViewHolder.icone);
                         context.startActivity(new Intent(context, ViewEventActivity.class));
                     }
                 }
@@ -83,6 +84,16 @@ public class EventAdapter extends BasicAdapter {
 
 
     private void loadImage(final Event currentEvent,final ImageView img) {
+
+
+        Picasso.with(context)
+                .load(currentEvent.getFotoBanda())
+                .placeholder(R.drawable.banner)
+                .resize(300, 300)
+                .onlyScaleDown()
+                .into(img);
+
+       /*
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(Constants.URL_STORAGE_REFERENCE);
 
@@ -94,7 +105,7 @@ public class EventAdapter extends BasicAdapter {
             public void onSuccess(Uri uri) {
 
                 Picasso.with(context)
-                        .load(uri)
+                        .load(DataHolder.getInstance().getEventSelected().getFotoBanda())
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .placeholder(R.drawable.banner)
                         .resize(200, 200)
@@ -108,6 +119,8 @@ public class EventAdapter extends BasicAdapter {
                 // Handle any errors
             }
         });
+
+        */
     }
 
     private class EventViewHolder extends RecyclerView.ViewHolder

@@ -1,5 +1,7 @@
 package br.com.leinadlarama.diadobatecabeca.helper;
 
+import android.widget.ImageView;
+
 import java.util.List;
 
 import br.com.leinadlarama.diadobatecabeca.model.Event;
@@ -11,7 +13,16 @@ import br.com.leinadlarama.diadobatecabeca.model.Event;
 public class DataHolder {
     private Event eventSelected;
 
+    private ImageView imageView;
     private List<Event> eventsCollection;
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
 
     public List<Event> getEventsCollection() {
         return eventsCollection;

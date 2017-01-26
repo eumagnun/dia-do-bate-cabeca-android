@@ -72,7 +72,7 @@ public class MainEventListActivity extends AppCompatActivity {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             event = (Event)pair.getValue();
-            event.setId(pair.getKey().toString());
+            event.setIdEvento(pair.getKey().toString());
             lista.add(event);
             it.remove();
         }

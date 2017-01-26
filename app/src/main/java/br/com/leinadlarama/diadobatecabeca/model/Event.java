@@ -5,7 +5,9 @@ package br.com.leinadlarama.diadobatecabeca.model;
  */
 
 public class Event {
-    private String id;
+    private String idEvento;
+    private String idBanda;
+    private String fotoBanda;
     private String nomeBanda;
     private String dataEvento;
     private String horaEvento;
@@ -18,12 +20,28 @@ public class Event {
     public Event() {
     }
 
-    public String getId() {
-        return id;
+    public String getIdEvento() {
+        return idEvento;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdEvento(String idEvento) {
+        this.idEvento = idEvento;
+    }
+
+    public String getIdBanda() {
+        return idBanda;
+    }
+
+    public void setIdBanda(String idBanda) {
+        this.idBanda = idBanda;
+    }
+
+    public String getFotoBanda() {
+        return fotoBanda;
+    }
+
+    public void setFotoBanda(String fotoBanda) {
+        this.fotoBanda = fotoBanda;
     }
 
     public Event(String nomeBanda, String image) {
