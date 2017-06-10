@@ -27,7 +27,7 @@ public class BandaDao {
         }
 
         DatabaseReference collectionRef = database.getReference(collection);
-        collectionRef.keepSynced(true);
+
         return collectionRef;
     }
 }

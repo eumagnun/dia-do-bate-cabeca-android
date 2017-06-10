@@ -70,11 +70,18 @@ public class ViewEventActivity extends AppCompatActivity {
 
     private String mountEventBodymessage() {
         StringBuffer bodyMessage = new StringBuffer();
-        bodyMessage.append("Local: ").append(DataHolder.getInstance().getEventSelected().getLocalEvento()).append("\n\n");
-        bodyMessage.append("Data: ").append(DataHolder.getInstance().getEventSelected().getDataEvento()).append("\n\n");
-        bodyMessage.append("Horário: ").append(DataHolder.getInstance().getEventSelected().getHoraEvento()).append("\n\n");
-        bodyMessage.append("Preços a partir de: ").append(DataHolder.getInstance().getEventSelected().getPrecoIngresso()).append("\n\n");
-        bodyMessage.append("Observações:\n ").append(DataHolder.getInstance().getEventSelected().getInfoComplementar()).append("\n\n");
+        bodyMessage.append("Informações:\n ")
+                .append(DataHolder.getInstance().getEventSelected()
+                .getInfoComplementar()
+                .replaceAll("(?i)Data:","\n\nData: ")
+                .replaceAll("(?i)Endereço:","\n\nEndereço:\n\n")
+                .replaceAll("(?i)Local:","\n\nLocal: ")
+                .replaceAll("(?i)Formas","\n\nFormas")
+                .replaceAll("(?i)PONTOS DE","\n\nPontos de")
+                .replaceAll("(?i)Ingressos: ","\n\nIngressos:\n")
+                .replaceAll("(?i)SETOR","\n\nSetor:")
+                .replaceAll("(?i)Informações: ","\n\nInformações:\n")
+        ).append("\n\n");
 
         return bodyMessage.toString();
     }

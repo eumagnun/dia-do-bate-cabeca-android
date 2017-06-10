@@ -1,10 +1,12 @@
 package br.com.leinadlarama.diadobatecabeca.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by eumagnun on 21/01/2017.
  */
 
-public class Event {
+public class Event implements  Comparable<Event>{
     private String idEvento;
     private String idBanda;
     private String fotoBanda;
@@ -111,5 +113,10 @@ public class Event {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public int compareTo(@NonNull Event anotherEvent) {
+        return this.getNomeBanda().compareTo(anotherEvent.getNomeBanda());
     }
 }

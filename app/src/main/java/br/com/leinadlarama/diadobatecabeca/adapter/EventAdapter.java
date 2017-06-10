@@ -62,8 +62,7 @@ public class EventAdapter extends BasicAdapter {
         currentEvent = listaEvents.get(position);
         loadImage(currentEvent,eventViewHolder.icone);
         eventViewHolder.titulo.setText(currentEvent.getNomeBanda());
-        eventViewHolder.info1.setText(currentEvent.getLocalEvento());
-        eventViewHolder.info2.setText(currentEvent.getPrecoIngresso());
+
 
         eventViewHolder.itemId.setOnClickListener(
                 new View.OnClickListener() {
@@ -128,16 +127,12 @@ public class EventAdapter extends BasicAdapter {
 
         final ImageView icone;
         final TextView titulo;
-        final TextView info1;
-        final TextView info2;
         final LinearLayout itemId;
 
         public EventViewHolder(View view) {
             super(view);
             icone = (ImageView) view.findViewById(R.id.icone);
             titulo = (TextView) view.findViewById(R.id.titulo);
-            info1 = (TextView) view.findViewById(R.id.info1);
-            info2 = (TextView) view.findViewById(R.id.info2);
             itemId  = (LinearLayout) view.findViewById(R.id.itemId);
         }
 

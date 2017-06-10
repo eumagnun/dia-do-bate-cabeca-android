@@ -10,25 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".SplashScreenActivity"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainEventListActivity">
+        <activity android:name=".MainEventListActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ViewEventActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TopTracksActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_top_tracks"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
