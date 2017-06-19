@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import br.com.leinadlarama.diadobatecabeca.MainEventListActivity;
 import br.com.leinadlarama.diadobatecabeca.R;
 import br.com.leinadlarama.diadobatecabeca.ViewEventActivity;
 import br.com.leinadlarama.diadobatecabeca.helper.Constants;
@@ -63,6 +66,15 @@ public class EventAdapter extends BasicAdapter {
         loadImage(currentEvent,eventViewHolder.icone);
         eventViewHolder.titulo.setText(currentEvent.getNomeBanda());
 
+        eventViewHolder.itemId.setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ((MainEventListActivity)context).removeFromFavourites(getItem(eventViewHolder.getAdapterPosition()));
+                        return true;
+                    }
+                }
+        );
 
         eventViewHolder.itemId.setOnClickListener(
                 new View.OnClickListener() {
@@ -84,42 +96,48 @@ public class EventAdapter extends BasicAdapter {
 
     private void loadImage(final Event currentEvent,final ImageView img) {
 
+        Picasso.with(context)
+                .load(currentEvent.getFotoBanda())
+                .placeholder(R.drawable.banner)
+                .resize(300, 300)
+                .onlyScaleDown()
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(img, new Callback() {
+                    @Override
+                    public void onSuccess() {
 
+                    }
+
+                    @Override
+                    public void onError() {
+                        //Try again online if cache failed
+                        Picasso.with(context)
+                                .load(currentEvent.getFotoBanda())
+                                .placeholder(R.drawable.banner)
+                                .resize(300, 300)
+                                .onlyScaleDown()
+                                .error(R.drawable.banner)
+                                .into(img, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        Log.v("Picasso","Could not fetch image");
+                                    }
+                                });
+                    }
+                });
+/*
         Picasso.with(context)
                 .load(currentEvent.getFotoBanda())
                 .placeholder(R.drawable.banner)
                 .resize(300, 300)
                 .onlyScaleDown()
                 .into(img);
-
-       /*
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(Constants.URL_STORAGE_REFERENCE);
-
-        StorageReference bannerRef = storageRef.child("/images/" + currentEvent.getId());
-
-        bannerRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-
-            @Override
-            public void onSuccess(Uri uri) {
-
-                Picasso.with(context)
-                        .load(DataHolder.getInstance().getEventSelected().getFotoBanda())
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .placeholder(R.drawable.banner)
-                        .resize(200, 200)
-                        .onlyScaleDown()
-                        .into(img);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                exception.printStackTrace();
-                // Handle any errors
-            }
-        });
-
-        */
+*/
     }
 
     private class EventViewHolder extends RecyclerView.ViewHolder

@@ -6,6 +6,6 @@ package br.com.leinadlarama.diadobatecabeca.helper;
 
 public class Constants {
 
-    public static final String URL_STORAGE_REFERENCE = "gs://dia-do-bate-cabeca.appspot.com";
+    public static final String COLLECTION_FAVOURITES = "favourites/users/";
 
 }
