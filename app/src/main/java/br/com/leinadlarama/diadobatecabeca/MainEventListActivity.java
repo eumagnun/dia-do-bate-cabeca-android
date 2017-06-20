@@ -185,7 +185,7 @@ public class MainEventListActivity extends BaseActivity {
         try {
 
             Event event;
-            if(mp!=null) {
+            if (mp != null) {
                 Iterator it = mp.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry) it.next();
@@ -202,7 +202,7 @@ public class MainEventListActivity extends BaseActivity {
                 Collections.sort(lista);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -301,32 +301,65 @@ public class MainEventListActivity extends BaseActivity {
 
     private void retrieveUndegroundBandsFromFirebase() {
 
-            initProgressDialog(this);
+        initProgressDialog(this);
 
-            Query eventsRef = BandaDao.getDataBaseRef(Constants.COLLECTION_EVENTS_UNDERGROUND);
-            eventsRef.keepSynced(true);
-            eventsRef.addValueEventListener(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            GenericTypeIndicator<HashMap<String, Event>> listGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Event>>() {
-                            };
+        Query eventsRef = BandaDao.getDataBaseRef(Constants.COLLECTION_EVENTS_UNDERGROUND);
+        eventsRef.keepSynced(true);
+        eventsRef.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<HashMap<String, Event>> listGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Event>>() {
+                        };
 
-                            HashMap<String, Event> hash = (HashMap<String, Event>) dataSnapshot.getValue(listGenericTypeIndicator);
+                        HashMap<String, Event> hash = (HashMap<String, Event>) dataSnapshot.getValue(listGenericTypeIndicator);
 
-                            listaBandas = convertDataFromFirebase(hash);
-                            loadListView(listaBandas);
+                        listaBandas = convertDataFromFirebase(hash);
+                        loadListView(listaBandas);
 
-                            progressDialog.dismiss();
-                        }
+                        progressDialog.dismiss();
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            progressDialog.dismiss();
-                        }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        progressDialog.dismiss();
+                    }
 
 
-                    });
+                });
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+        builder.setTitle("Deseja sair?");
+
+
+        String positiveText = this.getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+
+
+                });
+
+        String negativeText = this.getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 }
