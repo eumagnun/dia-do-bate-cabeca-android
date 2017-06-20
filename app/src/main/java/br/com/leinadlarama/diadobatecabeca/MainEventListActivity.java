@@ -104,7 +104,7 @@ public class MainEventListActivity extends BaseActivity {
 
         initProgressDialog(this);
 
-        Query eventsRef = BandaDao.getDataBaseRef("events")
+        Query eventsRef = BandaDao.getDataBaseRef(Constants.COLLECTION_EVENTS)
                 .orderByChild("existeEvento")
                 .startAt("1")
                 .endAt("1");
@@ -221,6 +221,11 @@ public class MainEventListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.menu_undeground:
+                retrieveUndegroundBandsFromFirebase();
+                this.tvSearchBand.setText("");
+                this.tilSearchForm.setVisibility(View.VISIBLE);
+                return true;
             case R.id.menu_favourites:
                 retrieveFavouritesFromFirebase();
                 this.tilSearchForm.setVisibility(View.GONE);
@@ -292,4 +297,36 @@ public class MainEventListActivity extends BaseActivity {
 
         }
     }
+
+
+    private void retrieveUndegroundBandsFromFirebase() {
+
+            initProgressDialog(this);
+
+            Query eventsRef = BandaDao.getDataBaseRef(Constants.COLLECTION_EVENTS_UNDERGROUND);
+            eventsRef.keepSynced(true);
+            eventsRef.addValueEventListener(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            GenericTypeIndicator<HashMap<String, Event>> listGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Event>>() {
+                            };
+
+                            HashMap<String, Event> hash = (HashMap<String, Event>) dataSnapshot.getValue(listGenericTypeIndicator);
+
+                            listaBandas = convertDataFromFirebase(hash);
+                            loadListView(listaBandas);
+
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            progressDialog.dismiss();
+                        }
+
+
+                    });
+    }
+
 }

@@ -29,4 +29,5 @@
     <string name="confimar_logout">Mesmo sair você agora vai?</string>
     <string name="msg_share_part1">Bate Cabeça com</string>
     <string name="msg_share">Compartilhar com...</string>
+    <string name="msg_login_necessario_para_postar">Logado necessário estar para poder comentar!</string>
 </resources>

@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item android:id="@+id/menu_undeground"
+        android:icon="@drawable/ic_action_underground"
+        android:title="Underground"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/menu_favourites"
-        android:icon="@drawable/ic_action_favourite"
+        android:icon="@drawable/ic_action_unfavourite"
         android:title="Favoritos"
         app:showAsAction="always"/>
 
@@ -14,6 +20,6 @@
 
     <item android:id="@+id/menu_login"
         android:icon="@android:drawable/ic_lock_idle_lock"
-        android:title="Pesquisar"
+        android:title="Login"
         app:showAsAction="ifRoom"/>
 </menu>
