@@ -16,7 +16,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -85,7 +85,9 @@ public class ViewEventActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //setSupportActionBar(toolbar);
 
@@ -173,7 +175,7 @@ public class ViewEventActivity extends BaseActivity {
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                         if (i == EditorInfo.IME_NULL
                                 && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                            if(!"".equals(mCommentField)) {
+                            if (!"".equals(mCommentField)) {
                                 postComment();
                             }
                             return true;
@@ -502,6 +504,13 @@ public class ViewEventActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Clean up comments listener
+        mAdapter.cleanupListener();
+    }
+
     private static class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
         private Context mContext;
@@ -514,6 +523,7 @@ public class ViewEventActivity extends BaseActivity {
         public CommentAdapter(final Context context, DatabaseReference ref) {
             mContext = context;
             mDatabaseReference = ref;
+
 
             // Create child event listener
             // [START child_event_listener_recycler]
@@ -623,6 +633,8 @@ public class ViewEventActivity extends BaseActivity {
         public int getItemCount() {
             return mComments.size();
         }
+
+
 
         public void cleanupListener() {
             if (mChildEventListener != null) {
